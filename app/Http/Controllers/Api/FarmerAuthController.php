@@ -115,7 +115,7 @@ class FarmerAuthController extends Controller
         }
 
         $farmer = Auth::guard('farmer')->user();
-        $token = $farmer->createToken('FarmerToken')->accessToken;
+        $token = $farmer->createToken('farmer')->accessToken;
 
         return response()->json([
             'status' => true,
