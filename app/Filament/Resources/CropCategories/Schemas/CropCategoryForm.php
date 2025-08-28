@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\CropCategories\Schemas;
 
-use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Schema;
 
 class CropCategoryForm
 {
@@ -13,36 +13,38 @@ class CropCategoryForm
     {
         return $schema
             ->components([
+                // English Section
                 Section::make('English')
                     ->schema([
                         TextInput::make('name.en')
                             ->label('Name (English)')
-                            ->required(),
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
                         Textarea::make('description.en')
                             ->label('Description (English)')
-                            ->rows(3),
+                            ->maxLength(500)
+                            ->columnSpanFull(),
                     ])
-                    ->columns(2),
+                    ->columns(1)
+                    ->collapsible(),
 
+                // Hindi Section
                 Section::make('Hindi')
                     ->schema([
                         TextInput::make('name.hi')
-                            ->label('Name (Hindi)'),
+                            ->label('Name (Hindi)')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
                         Textarea::make('description.hi')
                             ->label('Description (Hindi)')
-                            ->rows(3),
+                            ->maxLength(500)
+                            ->columnSpanFull(),
                     ])
-                    ->columns(2),
-
-                // Section::make('French')
-                //     ->schema([
-                //         TextInput::make('name.fr')
-                //             ->label('Name (French)'),
-                //         Textarea::make('description.fr')
-                //             ->label('Description (French)')
-                //             ->rows(3),
-                //     ])
-                //     ->columns(2),
+                    ->columns(1)
+                    ->collapsible(),
             ]);
     }
 }

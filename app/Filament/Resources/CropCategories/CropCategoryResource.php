@@ -1,79 +1,50 @@
 <?php
 
-namespace App\Filament\Resources\CropCategories\Tables;
+namespace App\Filament\Resources\CropCategories;
 
-use Filament\Tables;
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\BulkActionGroup;
+use App\Filament\Resources\CropCategories\Pages\CreateCropCategory;
+use App\Filament\Resources\CropCategories\Pages\EditCropCategory;
+use App\Filament\Resources\CropCategories\Pages\ListCropCategories;
+use App\Filament\Resources\CropCategories\Schemas\CropCategoryForm;
+use App\Filament\Resources\CropCategories\Tables\CropCategoriesTable;
 use App\Models\CropCategory;
+use BackedEnum;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 
-class CropCategoriesTable
+class CropCategoryResource extends Resource
 {
-    public static function configure(Table $table): Table
+    protected static ?string $model = CropCategory::class;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?string $recordTitleAttribute = 'CropCategory';
+
+    public static function form(Schema $schema): Schema
     {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('name.en')
-                    ->label('Name (English)')
-                    ->sortable()
-                    ->searchable(),
+        return CropCategoryForm::configure($schema);
+    }
 
-                Tables\Columns\TextColumn::make('name.hi')
-                    ->label('Name (Hindi)')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->sortable()
-                    ->searchable(),
+    public static function table(Table $table): Table
+    {
+        return CropCategoriesTable::configure($table);
+    }
 
-                Tables\Columns\TextColumn::make('description.en')
-                    ->label('Description (English)')
-                    ->limit(50)
-                    ->sortable()
-                    ->searchable(),
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
 
-                Tables\Columns\TextColumn::make('description.hi')
-                    ->label('Description (Hindi)')
-                    ->limit(50)
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime('d M Y H:i')
-                    ->label('Created At')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime('d M Y H:i')
-                    ->label('Updated At')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('language')
-                    ->label('Filter by Language')
-                    ->options([
-                        'en' => 'English',
-                        'hi' => 'Hindi',
-                    ])
-                    ->query(function ($query, $value) {
-                        if ($value === 'en') {
-                            $query->where('name->en', '!=', null);
-                        }
-                        if ($value === 'hi') {
-                            $query->where('name->hi', '!=', null);
-                        }
-                    }),
-            ])
-            ->recordActions([
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+    public static function getPages(): array
+    {
+        return [
+            'index' => ListCropCategories::route('/'),
+            'create' => CreateCropCategory::route('/create'),
+            'edit' => EditCropCategory::route('/{record}/edit'),
+        ];
     }
 }
