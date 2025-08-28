@@ -28,9 +28,9 @@ class FarmerAuthController extends Controller
                 'age' => 'required|integer|min:18',
                 'phone' => 'required|string|max:15|unique:farmers,phone',
                 'email' => 'required|email|unique:farmers,email',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|min:6',
                 'aadhaar_no' => 'nullable|string|max:12',
-                'preferred_language' => 'nullable|string|in:en,hi',
+                'preferred_language' => 'required|string|in:en,hi',
                 'state_id' => 'nullable|integer',
                 'village' => 'nullable|string|max:255',
                 'land_size' => 'nullable|string|max:255',
@@ -81,7 +81,7 @@ class FarmerAuthController extends Controller
             Log::info('Farmer registered successfully', ['id' => $farmer->id, 'email' => $farmer->email]);
 
             // 5️⃣ Generate token
-            $token = $farmer->createToken('FarmerToken')->accessToken;
+            $token = $farmer->createToken('farmer')->accessToken;
 
             // 6️⃣ Return response
             return response()->json([
