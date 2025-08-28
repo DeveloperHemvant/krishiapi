@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\FarmerAuthController;
 // Route::prefix('farmer')->group(function () {
     Route::post('register', [FarmerAuthController::class, 'register']);
     Route::post('login', [FarmerAuthController::class, 'login']);
-    Route::get('states', [FarmerAuthController::class, 'index']);
+    Route::get('master-data', [FarmerAuthController::class, 'index']);
 
     Route::middleware('auth:farmer')->group(function () {
         Route::post('logout', [FarmerAuthController::class, 'logout']);
@@ -19,7 +19,4 @@ use App\Http\Controllers\Api\FarmerAuthController;
     });
 // });
 
-// Route::post('/register', function (Request $request) {
-//     // return $request->user();
-//     // dd($request->all());
-// });
+

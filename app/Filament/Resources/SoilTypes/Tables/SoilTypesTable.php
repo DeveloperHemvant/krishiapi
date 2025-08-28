@@ -14,17 +14,20 @@ class SoilTypesTable
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name.en')
+                  Tables\Columns\TextColumn::make('name')
                     ->label('Name (EN)')
+                    ->getStateUsing(fn ($record) => $record->getTranslation('name', 'en'))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('name.hi')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Name (HI)')
+                    ->getStateUsing(fn ($record) => $record->getTranslation('name', 'hi'))
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('description.en')
-                    ->label('Description')
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Description (EN)')
+                    ->getStateUsing(fn ($record) => $record->getTranslation('description', 'en'))
                     ->limit(50),
             ])
             ->filters([

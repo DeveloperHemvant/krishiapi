@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\App;
 use App\Models\State;
+use App\Models\SoilType;
 
 class FarmerAuthController extends Controller
 {
@@ -36,12 +37,13 @@ class FarmerAuthController extends Controller
                 'land_type' => 'nullable|string|max:255',
                 'soil_types' => 'nullable|array',
                 'water_source' => 'nullable|string|max:255',
-                'livestock' => 'nullable|array',
+                'livestock' => 'nullable|string|max:255',
                 'bank_name' => 'nullable|string|max:255',
                 'account_number' => 'nullable|string|max:30',
                 'ifsc_code' => 'nullable|string|max:20',
                 'consent' => 'required|boolean',
             ];
+
 
             // 3️⃣ Custom messages
             $messages = [
@@ -135,8 +137,10 @@ class FarmerAuthController extends Controller
 
     public function index(Request $request)
     {
+        // Get preferred language, default to 'en'
         $lang = $request->query('lang', 'en');
 
+        // Fetch states
         $states = State::all()->map(function($state) use ($lang) {
             return [
                 'id' => $state->id,
@@ -145,9 +149,21 @@ class FarmerAuthController extends Controller
             ];
         });
 
+        // Fetch soil types
+        $soilTypes = SoilType::all()->map(function($soil) use ($lang) {
+            return [
+                'id' => $soil->id,
+                'name' => $soil->getTranslation('name', $lang),
+                'description' => $soil->getTranslation('description', $lang),
+            ];
+        });
+
         return response()->json([
             'success' => true,
-            'data' => $states,
+            'data' => [
+                'states' => $states,
+                'soil_types' => $soilTypes,
+            ],
         ]);
     }
 }

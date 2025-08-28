@@ -15,24 +15,28 @@ class CropCategoriesTable
         return $table
             ->columns([
                 // Name columns
-                TextColumn::make('name.en')
+                TextColumn::make('name')
                     ->label('Name (English)')
+                    ->getStateUsing(fn($record) => $record->getTranslation('name', 'en'))
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('name.hi')
+                TextColumn::make('name')
                     ->label('Name (Hindi)')
+                    ->getStateUsing(fn($record) => $record->getTranslation('name', 'hi'))
                     ->searchable()
                     ->sortable(),
 
                 // Description columns
-                TextColumn::make('description.en')
+                TextColumn::make('description')
                     ->label('Description (English)')
+                    ->getStateUsing(fn($record) => $record->getTranslation('description', 'en'))
                     ->limit(50)
                     ->toggleable(),
 
-                TextColumn::make('description.hi')
+                TextColumn::make('description')
                     ->label('Description (Hindi)')
+                    ->getStateUsing(fn($record) => $record->getTranslation('description', 'hi'))
                     ->limit(50)
                     ->toggleable(),
 
