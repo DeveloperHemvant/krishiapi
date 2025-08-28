@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class FarmerRegisterRequest extends FormRequest
 {
-    public function authorize(): bool { return true; }
+    // public function authorize(): bool { return true; }
 
     public function rules(): array
     {
@@ -20,7 +20,6 @@ class FarmerRegisterRequest extends FormRequest
             'aadhaar_no' => 'nullable|string|max:12',
             'preferred_language' => 'nullable|string|max:50',
             'state_id' => 'nullable|integer',
-            'district_id' => 'nullable|integer',
             'village' => 'nullable|string|max:255',
             'land_size' => 'nullable|string|max:255',
             'land_type' => 'nullable|string|max:255',

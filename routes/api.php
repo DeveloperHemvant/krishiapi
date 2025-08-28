@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\FarmerAuthController;
 
 
 
-Route::prefix('farmer')->group(function () {
+// Route::prefix('farmer')->group(function () {
     Route::post('register', [FarmerAuthController::class, 'register']);
     Route::post('login', [FarmerAuthController::class, 'login']);
 
@@ -16,8 +16,9 @@ Route::prefix('farmer')->group(function () {
             return response()->json($request->user());
         });
     });
-});
+// });
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+// Route::post('/register', function (Request $request) {
+//     // return $request->user();
+//     // dd($request->all());
+// });
