@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\App;
+use App\Models\State;
 
 class FarmerAuthController extends Controller
 {
@@ -129,6 +130,24 @@ class FarmerAuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Logged out successfully'
+        ]);
+    }
+
+    public function index(Request $request)
+    {
+        $lang = $request->query('lang', 'en');
+
+        $states = State::all()->map(function($state) use ($lang) {
+            return [
+                'id' => $state->id,
+                'name' => $state->getTranslation('name', $lang),
+                'iso_code' => $state->iso_code,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $states,
         ]);
     }
 }
